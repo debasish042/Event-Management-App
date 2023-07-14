@@ -1,0 +1,175 @@
+<div *ngIf="admin.loggedIn">
+  <span *ngIf="employeeHome; then empHome"></span>
+  <ng-template #empHome>
+    <div class="row">
+      <div class="col-md-10" style="height: 100vh; margin: 0 auto">
+        <h3 [style]="style">{{ message }}</h3>
+        <h2 style="text-align: center">List of Employees</h2>
+        <br />
+        <div style="display: flex; justify-content: space-between">
+          <div>
+            <button (click)="enableAdd()" class="btn btn-sm btn-success">
+              Add New Employee
+            </button>
+          </div>
+          <div>
+            <form class="form-inline my-2 my-lg-0">
+              <input class="form-control mr-sm-2" type="search" name="empId" id="empId"
+                placeholder="Search Employee by ID" [(ngModel)]="empId" aria-label="Search" />
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="searchEmployee(empId)">
+                Search
+              </button>
+            </form>
+          </div>
+        </div>
+        <br />
+        <br />
+        <table class="table table-dark">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let employee of employees">
+              <td>{{ employee.id }}</td>
+              <td>{{ employee.first_name }}</td>
+              <td>{{ employee.last_name }}</td>
+              <td>{{ employee.email }}</td>
+              <td>
+                <button class="btn btn-sm btn-info" (click)="viewEmployee(employee)">
+                  View Details
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-template>
+  <span *ngIf="addEmployee; then addEmp"></span>
+  <ng-template #addEmp>
+    <button class="btn btn-secondary btn-sm" (click)="ngOnInit()">
+      Go Back
+    </button>
+    <br />
+    <div class="row">
+      <div class="col-md-10" style="height: 100vh; margin: 0 auto">
+        <h2>Add New Employees Details</h2>
+        <br />
+        <form>
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" class="form-control" id="firstName" name="firstName" [(ngModel)]="newEmployee.first_name"
+              required />
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="newEmployee.last_name"
+              required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" [(ngModel)]="newEmployee.email" required />
+          </div>
+          <button type="submit" class="btn btn-dark" (click)="createEmployee()">
+            Create
+          </button>
+        </form>
+      </div>
+    </div>
+  </ng-template>
+  <span *ngIf="individualEmployee; then empDetails"></span>
+  <ng-template #empDetails>
+    <div class="row" style="height: 100vh">
+      <div class="col-md-10" style="height: 100vh; margin: 0 auto">
+        <br />
+        <table class="table table-dark">
+          <tbody>
+            <tr>
+              <td colspan="2">
+                <h2>
+                  Details of
+                  <em>{{ newEmployee.first_name }}
+                    {{ newEmployee.last_name }}</em>
+                </h2>
+              </td>
+            </tr>
+            <tr>
+              <th>Employee Id</th>
+              <td>{{ newEmployee.id }}</td>
+            </tr>
+            <tr>
+              <th>Employee First Name</th>
+              <td>{{ newEmployee.first_name }}</td>
+            </tr>
+            <tr>
+              <th>Employee Last Name</th>
+              <td>{{ newEmployee.last_name }}</td>
+            </tr>
+            <tr>
+              <th>Employee Email</th>
+              <td>{{ newEmployee.email }}</td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <button (click)="ngOnInit()" class="btn btn-info btn-sm">
+                  Employee List
+                </button>
+                &nbsp;
+                <button (click)="deleteEmployee(newEmployee.id)" class="btn btn-danger btn-sm">
+                  Delete
+                </button>
+                &nbsp;
+                <button (click)="getEmployeeForEdit(newEmployee)" class="btn btn-warning btn-sm">
+                  Update
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-template>
+  <span *ngIf="editEmployee; then editEmp"></span>
+  <ng-template #editEmp>
+    <button class="btn btn-secondary btn-sm" (click)="ngOnInit()">
+      Go Back
+    </button>
+    <br />
+    <div class="row">
+      <div class="col-md-10" style="height: 100vh; margin: 0 auto">
+        <h2>Update Employees Details</h2>
+        <br />
+        <form>
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" class="form-control" id="firstName" name="firstName" [(ngModel)]="newEmployee.first_name"
+              required />
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="newEmployee.last_name"
+              required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" [(ngModel)]="newEmployee.email" required />
+          </div>
+          <button type="submit" class="btn btn-dark" (click)="updateEmployee()">
+            Update
+          </button>
+        </form>
+      </div>
+    </div>
+  </ng-template>
+</div>
+<div *ngIf="!admin.loggedIn">
+  <div style="height: 100vh">
+    <h1 style="color: red; text-align: center">Invalid Access!</h1>
+  </div>
+</div>
